@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Results | URL Checker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2d89ef, #6a5acd);
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        h2 {
+            margin-top: 0;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            gap: 20px;
+        }
+
+        .stat-card {
+            flex: 1;
+            min-width: 200px;
+            padding: 20px;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .active {
+            background: linear-gradient(135deg, #28a745, #218838);
+        }
+
+        .inactive {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+        }
+
+        .total {
+            background: linear-gradient(135deg, #6c757d, #5a6268);
+        }
+
+        .stat-card h3 {
+            margin: 0;
+            font-size: 26px;
+        }
+
+        .stat-card p {
+            margin: 5px 0 0 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        th {
+            background: #f4f6f9;
+            text-align: left;
+            padding: 12px;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:hover {
+            background: #f9f9f9;
+        }
+
+        .status-active {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .status-inactive {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .buttons {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            color: white;
+            transition: 0.3s;
+        }
+
+        .btn-active {
+            background: #28a745;
+        }
+
+        .btn-inactive {
+            background: #dc3545;
+        }
+
+        .btn-home {
+            background: #2d89ef;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .stats {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h2>URL Check Results</h2>
+
+    {% with total=results|length %}
+    {% with active_count=results|dictsort:"status"|length %}
+    {% endwith %}
+    {% endwith %}
+
+    {% comment %} Calculate counts manually {% endcomment %}
+    {% with active=0 inactive=0 %}
+        {% for r in results %}
+            {% if r.status == "Active" %}
+                {% widthratio 1 1 1 as active %}
+            {% endif %}
+        {% endfor %}
+    {% endwith %}
+
+    <!-- Stats Section -->
+    <div class="stats">
+        <div class="stat-card total">
+            <h3>{{ total_count }}</h3>
+            <p>Total URLs</p>
+        </div>
+
+        <div class="stat-card active">
+            <h3>{{ active_count }}</h3>
+            <p>Active URLs</p>
+        </div>
+
+        <div class="stat-card inactive">
+            <h3>{{ inactive_count }}</h3>
+            <p>Inactive URLs</p>
+        </div>
+    </div>
+
+    <!-- Results Table -->
+    <table>
+        <thead>
+            <tr>
+                <th>Sheet</th>
+                <th>URL</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results %}
+            <tr>
+                <td>{{ result.sheet_name }}</td>
+                <td>{{ result.url }}</td>
+                <td>
+                    {% if result.status == "Active" %}
+                        <span class="status-active">Active</span>
+                    {% else %}
+                        <span class="status-inactive">Inactive</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Buttons -->
+    <div class="buttons">
+        <a href="{% url 'download_active' %}" class="btn btn-active">
+            Download Active
+        </a>
+
+        <a href="{% url 'download_inactive' %}" class="btn btn-inactive">
+            Download Inactive
+        </a>
+
+        <a href="{% url 'welcome' %}" class="btn btn-home">
+            Back to Home
+        </a>
+    </div>
+
+</div>
+
+</body>
+</html>
+
+
+
+

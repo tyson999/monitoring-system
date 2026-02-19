@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Excel File</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        }
+
+        .upload-card {
+            max-width: 600px;
+            margin: auto;
+            margin-top: 100px;
+            border-radius: 15px;
+        }
+
+        .upload-area {
+            border: 2px dashed #0d6efd;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            background-color: #f8fbff;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .upload-area:hover {
+            background-color: #e7f1ff;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="card shadow-lg upload-card p-4">
+
+        <h3 class="text-center mb-4 fw-bold">
+            Upload Excel File
+        </h3>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <label class="upload-area">
+                <p class="mb-2">📂 Click to select Excel file</p>
+                <small class="text-muted">Supported: .xlsx</small>
+                <input type="file" name="file" class="file-input" required>
+            </label>
+
+            <div class="d-grid mt-4">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    Check URLs
+                </button>
+            </div>
+        </form>
+
+        {% if error %}
+        <div class="alert alert-danger mt-4 text-center">
+            {{ error }}
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+</body>
+</html>
+
+

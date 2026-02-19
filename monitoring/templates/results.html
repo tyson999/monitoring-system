@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Results</title>
+</head>
+<body style="font-family:Arial; margin:50px;">
+
+    <h2>URL Status Results</h2>
+
+    <table border="1" cellpadding="10">
+        <tr>
+            <th>URL</th>
+            <th>Status</th>
+        </tr>
+
+        {% for item in results %}
+        <tr>
+            <td>{{ item.url }}</td>
+            <td>{{ item.status }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+    <br><br>
+
+    <a href="{% url 'download_excel' %}">Download Active URLs</a>
+
+</body>
+</html>

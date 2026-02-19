@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Processing | URL Checker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script>
+        // Automatically start backend processing
+        window.onload = function() {
+            setTimeout(function() {
+                window.location.href = "{% url 'run_processing' %}";
+            }, 800); // small delay so user sees animation
+        };
+    </script>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2d89ef, #6a5acd);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+            text-align: center;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 50px 60px;
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 30px;
+            font-size: 15px;
+            opacity: 0.9;
+        }
+
+        .spinner {
+            width: 70px;
+            height: 70px;
+            border: 6px solid rgba(255, 255, 255, 0.3);
+            border-top: 6px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: auto;
+        }
+
+        .dots {
+            margin-top: 20px;
+            font-size: 20px;
+            letter-spacing: 4px;
+            animation: blink 1.4s infinite both;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes blink {
+            0% { opacity: .2; }
+            20% { opacity: 1; }
+            100% { opacity: .2; }
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>Checking URLs</h2>
+        <p>Please wait while we process your worksheet.</p>
+
+        <div class="spinner"></div>
+
+        <div class="dots">● ● ●</div>
+    </div>
+
+</body>
+</html>

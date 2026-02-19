@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Sheet URL Checker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2d89ef, #6a5acd);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background: white;
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
+
+        input[type="text"]:focus,
+        select:focus {
+            border-color: #2d89ef;
+            outline: none;
+            box-shadow: 0 0 5px rgba(45, 137, 239, 0.3);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #2d89ef, #6a5acd);
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .error {
+            background: #ffe6e6;
+            color: #cc0000;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 13px;
+            color: #888;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+
+    <h2>Google Sheet URL Checker</h2>
+
+    {% if error %}
+        <div class="error">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <!-- STEP 1: Enter Google Sheet URL -->
+    <form method="post">
+        {% csrf_token %}
+
+        <label>Paste Google Sheet Link</label>
+        <input type="text"
+               name="sheet_url"
+               placeholder="https://docs.google.com/spreadsheets/d/..."
+               value="{{ sheet_url|default:'' }}"
+               required>
+
+        <button type="submit">Load Worksheets</button>
+    </form>
+
+    <!-- STEP 2: Show Dropdown -->
+    {% if sheet_names %}
+
+        <div class="divider">Select Worksheet to Process</div>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <input type="hidden" name="sheet_url" value="{{ sheet_url }}">
+
+            <label>Choose Worksheet</label>
+            <select name="selected_sheet" required>
+                <option value="">-- Select Worksheet --</option>
+                <option value="ALL">All Worksheets(May take longer)</option>
+                {% for sheet in sheet_names %}
+                    <option value="{{ sheet }}">{{ sheet }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Start Checking</button>
+        </form>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>
+
+
