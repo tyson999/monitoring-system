@@ -81,12 +81,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 import dj_database_url  
+import os
 
 DATABASES = {
-    'default': {
-        'default': dj_database_url.config(default=os.environ.get('postgresql://monitoring_db_au2d_user:Qn8WZ9aBNWTJiLr4gsqKTB6TA5IeiAIm@dpg-d6bc1jn5r7bs739hoiqg-a/monitoring_db_au2d'))   
+    'default': dj_database_url.config(default=os.environ.get('postgresql://monitoring_db_au2d_user:Qn8WZ9aBNWTJiLr4gsqKTB6TA5IeiAIm@dpg-d6bc1jn5r7bs739hoiqg-a/monitoring_db_au2d'),
+     conn_max_age=600)   
     }
-}
 
 
 # Password validation
