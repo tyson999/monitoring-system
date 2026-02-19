@@ -22,6 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 import os
+SECRET_KEY = 'django-insecure-b!$p#cz)=iwawe0lidc=fc03lj^!04ky*&w+cae#itq0l#zbzh'
 SECRET_KEY = os.environ.get("SECRET_KEY = 'django-insecure-b!$p#cz)=iwawe0lidc=fc03lj^!04ky*&w+cae#itq0l#zbzh'")
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -79,10 +80,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-import dj_database_url 
+import dj_database_url  
+
 DATABASES = {
     'default': {
-        'default': dj_database_url.config(default=os.environ.get('https://docs.djangoproject.com/en/5.2/ref/settings/#databases'))   
+        'default': dj_database_url.config(default=os.environ.get('postgresql://monitoring_db_au2d_user:Qn8WZ9aBNWTJiLr4gsqKTB6TA5IeiAIm@dpg-d6bc1jn5r7bs739hoiqg-a/monitoring_db_au2d'))   
     }
 }
 
@@ -121,6 +123,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
+import os
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
