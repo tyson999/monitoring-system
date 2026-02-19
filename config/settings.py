@@ -80,12 +80,13 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-import dj_database_url  
 import os
+import dj_database_url
 
 DATABASES = {
-    'default': dj_database_url.config(default=os.environ.get('postgresql://monitoring_db_au2d_user:Qn8WZ9aBNWTJiLr4gsqKTB6TA5IeiAIm@dpg-d6bc1jn5r7bs739hoiqg-a/monitoring_db_au2d'),
-     conn_max_age=600)   
+    'default': dj_database_url.config(
+        default = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3'),
+        conn_max_age=600)   
     }
 
 
